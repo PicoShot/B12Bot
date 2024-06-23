@@ -1,0 +1,4 @@
+# Bot Token
+TOKEN=Token here
+# Password Encrypt Key For Example (0xFF) hex value
+EncryptKey=0xFF
