@@ -27,10 +27,28 @@ for (const file of commandFiles) {
     });
 }
 
-// Register commands with Discord API
-const rest = new REST({ version: '10' }).setToken(process.env.TOKEN);
+// Load events dynamically
+const eventFiles = fs.readdirSync('./events').filter(file => file.endsWith('.js'));
 
-(async () => {
+for (const file of eventFiles) {
+    const event = require(`./events/${file}`);
+    if (event.once) {
+        client.once(event.name, (...args) => event.execute(...args));
+    } else {
+        client.on(event.name, (...args) => event.execute(...args));
+    }
+}
+
+// Register commands after the bot is ready
+client.once('ready', async () => {
+    console.log(`Logged in as ${client.user.tag}`);
+    client.user.setPresence({
+        activities: [{ name: 'Owener => PicoShot', type: 'PLAYING' }],
+        status: 'online',
+    });
+
+    const rest = new REST({ version: '10' }).setToken(process.env.TOKEN);
+
     try {
         console.log('Started refreshing application (/) commands.');
 
@@ -43,18 +61,6 @@ const rest = new REST({ version: '10' }).setToken(process.env.TOKEN);
     } catch (error) {
         console.error(error);
     }
-})();
-
-// Load events dynamically
-const eventFiles = fs.readdirSync('./events').filter(file => file.endsWith('.js'));
-
-for (const file of eventFiles) {
-    const event = require(`./events/${file}`);
-    if (event.once) {
-        client.once(event.name, (...args) => event.execute(...args));
-    } else {
-        client.on(event.name, (...args) => event.execute(...args));
-    }
-}
+});
 
 client.login(process.env.TOKEN);

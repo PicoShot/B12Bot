@@ -10,8 +10,9 @@ module.exports = {
         },
     ],
     async execute(interaction) {
+        const userId = interaction.user.id;
         let passwordName = interaction.options.getString('password_name');
-        let msg = `Debug:{${passwordName}}bi dur yarram botu daha yapmadık aq`;
+        let msg = `Debug:{${userId},${passwordName}}bi dur yarram botu daha yapmadık aq`;
         await interaction.reply({ content: msg, ephemeral: true });
     },
 };
