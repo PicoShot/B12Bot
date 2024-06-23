@@ -1,15 +1,18 @@
-const { Client, GatewayIntentBits, Partials, Collection, REST, Routes, MessageActionRow, MessageSelectMenu } = require('discord.js');
+const { Client, Intents, Collection } = require('discord.js');
+const { REST } = require('@discordjs/rest');
+const { Routes } = require('discord-api-types/v9'); // Ensure correct version
 const fs = require('fs');
 require('dotenv').config();
 const pool = require('./includes/sql');
+console.log(require('discord.js').version);
 
 const client = new Client({
     intents: [
-        GatewayIntentBits.Guilds,
+        Intents.FLAGS.GUILDS,
+        Intents.FLAGS.GUILD_MESSAGES,
+        Intents.FLAGS.DIRECT_MESSAGES,
     ],
-    partials: [
-        Partials.Channel,
-    ],
+    partials: ['CHANNEL'],
 });
 
 client.commands = new Collection();
@@ -44,17 +47,17 @@ for (const file of eventFiles) {
 client.once('ready', async () => {
     console.log(`Logged in as ${client.user.tag}`);
     client.user.setPresence({
-        activities: [{ name: 'Owener => PicoShot', type: 'PLAYING' }],
+        activities: [{ name: 'Owner => PicoShot', type: 'PLAYING' }],
         status: 'online',
     });
 
-    const rest = new REST({ version: '10' }).setToken(process.env.TOKEN);
+    const rest = new REST({ version: '9' }).setToken(process.env.TOKEN);
 
     try {
         console.log('Started refreshing application (/) commands.');
 
         await rest.put(
-            Routes.applicationCommands(client.user.id),
+            Routes.applicationCommands(client.user.id), // Global commands
             { body: commands },
         );
 
