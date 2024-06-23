@@ -1,4 +1,5 @@
-const { Client, GatewayIntentBits, Partials, REST, Routes, ActivityType } = require('discord.js');
+const { Client, GatewayIntentBits, Partials, Collection, REST, Routes } = require('discord.js');
+const fs = require('fs');
 require('dotenv').config();
 
 const client = new Client({
@@ -10,56 +11,26 @@ const client = new Client({
     ],
 });
 
-client.once('ready', () => {
-    console.log(`Logged in as ${client.user.tag}`);
-    client.user.setPresence({
-        activities: [{ name: 'Owener => PicoShot', type: ActivityType.Playing }],
-        status: 'online',
+client.commands = new Collection();
+
+// Load commands dynamically
+const commandFiles = fs.readdirSync('./commands').filter(file => file.endsWith('.js'));
+
+const commands = [];
+for (const file of commandFiles) {
+    const command = require(`./commands/${file}`);
+    client.commands.set(command.name, command);
+    commands.push({
+        name: command.name,
+        description: command.description,
+        options: command.options,
     });
-    registerCommands();
-});
+}
 
-const registerCommands = async () => {
-    const commands = [
-        {
-            name: 'set_password',
-            description: 'Set a New Password',
-            options: [
-                {
-                    name: 'password_name',
-                    type: 3,
-                    description: 'Name The Password',
-                    required: true,
-                },
-                {
-                    name: 'password',
-                    type: 3,
-                    description: 'New Password',
-                    required: true,
-                },
-            ],
-        },
-        {
-            name: 'get_password',
-            description: 'Get Your Password',
-            options: [
-                {
-                    name: 'password_name',
-                    type: 3,
-                    description: 'The Password Name',
-                    required: true,
-                },
-            ],
-        },
-        {
-            name: 'whois',
-            description: 'Tell You Who u are ?',
-            options: [],
-        },
-    ];
+// Register commands with Discord API
+const rest = new REST({ version: '10' }).setToken(process.env.TOKEN);
 
-    const rest = new REST({ version: '10' }).setToken(process.env.TOKEN);
-
+(async () => {
     try {
         console.log('Started refreshing application (/) commands.');
 
@@ -72,32 +43,18 @@ const registerCommands = async () => {
     } catch (error) {
         console.error(error);
     }
-};
+})();
 
-client.on('interactionCreate', async interaction => {
-    if (!interaction.isCommand()) return;
+// Load events dynamically
+const eventFiles = fs.readdirSync('./events').filter(file => file.endsWith('.js'));
 
-    const { commandName, options } = interaction;
-
-    if (commandName === 'set_password') {
-
-        let passwordName = options.getString('password_name');
-        let password = options.getString('password');
-        let msg = `Debug:{${passwordName},${password}}Şifreni kaydettim! (bu sadece bir test mesajı hiç bi boku kaydetmedi.)`
-
-        await interaction.reply({ content: msg, ephemeral: true });
+for (const file of eventFiles) {
+    const event = require(`./events/${file}`);
+    if (event.once) {
+        client.once(event.name, (...args) => event.execute(...args));
+    } else {
+        client.on(event.name, (...args) => event.execute(...args));
     }
-    else if (commandName === 'get_password') {
-
-        let passwordName = options.getString('password_name');
-        let msg = `Debug:{${passwordName}}bi dur yarram botu daha yapmadık aq`
-
-        await interaction.reply({ content: msg, ephemeral: true });
-    }
-    else if (commandName === 'whois') {
-
-        await interaction.reply({ content: 'sen tam bir o.ç\'sun', ephemeral: true });
-    }
-});
+}
 
 client.login(process.env.TOKEN);
