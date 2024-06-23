@@ -13,6 +13,7 @@
     "@discordjs/rest": "^2.3.0",
     "discord-api-types": "^0.37.90",
     "discord.js": "^14.15.3",
-    "dotenv": "^16.4.5"
+    "dotenv": "^16.4.5",
+    "mysql2": "^3.10.1"
   }
 }

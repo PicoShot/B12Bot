@@ -1,6 +1,7 @@
 const { Client, GatewayIntentBits, Partials, Collection, REST, Routes } = require('discord.js');
 const fs = require('fs');
 require('dotenv').config();
+const pool = require('./includes/sql');
 
 const client = new Client({
     intents: [
