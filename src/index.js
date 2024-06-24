@@ -4,6 +4,9 @@ const { Routes } = require('discord-api-types/v9');
 const fs = require('fs');
 require('dotenv').config();
 const pool = require('./includes/sql');
+const { modals } = require('discord-modals'); // Import the discord-modals package correctly
+const discordModals = require('discord-modals'); // Import discord-modals
+
 console.log(require('discord.js').version);
 
 const client = new Client({
@@ -14,6 +17,8 @@ const client = new Client({
     ],
     partials: ['CHANNEL'],
 });
+
+discordModals(client); // Initialize discord-modals with the client
 
 client.commands = new Collection();
 
