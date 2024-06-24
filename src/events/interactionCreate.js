@@ -12,14 +12,22 @@ module.exports = {
 
             if (!command) return;
 
-            // Exclude the /register command from the registration check
-            if (interaction.commandName !== 'register') {
+            const userId = interaction.user.id;
+
+            // Exclude the /register and /verify commands from the verification check
+            if (interaction.commandName !== 'register' && interaction.commandName !== 'verify') {
                 // Check if the user is registered
-                const userId = interaction.user.id;
                 const [rows] = await pool.execute('SELECT * FROM register WHERE user_id = ?', [userId]);
 
                 if (rows.length === 0 || !rows[0].registered) {
                     await interaction.reply({ content: 'You need to register first using the /register command.', ephemeral: true });
+                    return;
+                }
+
+                // Check if the user is verified and the verification is still valid
+                const [verifyRows] = await pool.execute('SELECT * FROM verify_times WHERE user_id = ?', [userId]);
+                if (verifyRows.length === 0 || new Date(verifyRows[0].expires_at) < new Date()) {
+                    await interaction.reply({ content: 'You need to verify your account using the /verify command.', ephemeral: true });
                     return;
                 }
             }
@@ -66,7 +74,7 @@ module.exports = {
                     }
 
                     // Register the user
-                    await pool.execute('INSERT INTO register (user_id, registered) VALUES (?, ?)', [userId, true]);
+                    await pool.execute('INSERT INTO register (user_id, registered) VALUES (?, ?) ON DUPLICATE KEY UPDATE registered = VALUES(registered)', [userId, true]);
                     await interaction.reply({ content: 'You have been registered successfully!', ephemeral: true });
                 } catch (error) {
                     console.error(error);
