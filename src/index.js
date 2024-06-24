@@ -1,6 +1,6 @@
 const { Client, Intents, Collection } = require('discord.js');
 const { REST } = require('@discordjs/rest');
-const { Routes } = require('discord-api-types/v9'); // Ensure correct version
+const { Routes } = require('discord-api-types/v9');
 const fs = require('fs');
 require('dotenv').config();
 const pool = require('./includes/sql');
