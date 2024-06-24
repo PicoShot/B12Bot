@@ -1,6 +1,8 @@
 const crypto = require('crypto');
 
-function xor(input, key = process.env.SECRET_KEY) {
+// Welcome To Pico's Encrypt/Decrypt System!
+
+function xor(input, key) {
     let result = [];
     for (let i = 0; i < input.length; i++) {
         result.push(String.fromCharCode(input.charCodeAt(i) ^ key.charCodeAt(i % key.length)));
@@ -44,8 +46,13 @@ function picoDecrypt(input, key) {
     return finalDecrypted;
 }
 
+function md5(data) {
+    return crypto.createHash('md5').update(data).digest('hex');
+}
+
 module.exports = {
     xor,
     picoEncrypt,
-    picoDecrypt
+    picoDecrypt,
+    md5
 };

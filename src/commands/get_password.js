@@ -88,7 +88,8 @@ module.exports = {
                                 }
 
                                 const encryptedPassword = passwordRows[0].password;
-                                const decryptedPassword = ED.picoDecrypt(encryptedPassword, process.env.SECRET_KEY);
+                                const secret = ED.md5(process.env.SECRET_KEY + userId);
+                                const decryptedPassword = ED.picoDecrypt(encryptedPassword, secret);
 
                                 const msg = `Your password for ${selectedPasswordName}: ${decryptedPassword}`;
 

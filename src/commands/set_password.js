@@ -23,7 +23,8 @@ module.exports = {
         const userId = interaction.user.id;
         const passwordName = interaction.options.getString('password_name').toUpperCase();
         const password = interaction.options.getString('password');
-        const encryptedPassword = ED.picoEncrypt(password, process.env.SECRET_KEY);
+        const secret = ED.md5(process.env.SECRET_KEY + userId);
+        const encryptedPassword = ED.picoEncrypt(password, secret);
 
         const row = new MessageActionRow()
             .addComponents(
