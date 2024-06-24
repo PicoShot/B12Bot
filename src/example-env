@@ -1,20 +1,11 @@
-#                  [Bot Settings]
-
-# Bot Token
+# [Bot Settings]
 TOKEN=Token here
-# Debug Mode
 Debug=false
-# Password Encrypt Key For Example (0xFF) in string
 SECRET_KEY="0xFF"
 
-#             [SQL Connection Settings]
-
-
+# [SQL Connection Settings]
 SQL_IP=localhost
-
 SQL_USER=root
-
 SQL_PASS=
-
 SQL_DB=B12Bot
 
