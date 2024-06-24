@@ -11,6 +11,7 @@
   "description": "B12Bot is Discord Bot That Store Password with uplevel encryption",
   "dependencies": {
     "@discordjs/rest": "^2.3.0",
+    "crypto": "^1.0.1",
     "discord-api-types": "^0.37.90",
     "discord.js": "^13.17.1",
     "dotenv": "^16.4.5",

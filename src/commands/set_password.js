@@ -23,7 +23,7 @@ module.exports = {
         const userId = interaction.user.id;
         const passwordName = interaction.options.getString('password_name').toUpperCase();
         const password = interaction.options.getString('password');
-        const encryptedPassword = ED.xorEncryptDecrypt(password, 'mysecretkey'); // Replace 'mysecretkey' with your actual key
+        const encryptedPassword = ED.picoEncrypt(password, process.env.SECRET_KEY);
 
         const row = new MessageActionRow()
             .addComponents(
@@ -38,7 +38,7 @@ module.exports = {
                         },
                         {
                             label: 'Here (Channel)',
-                            description: 'Send the message in the current channel',
+                            description: 'Send the message in the current channel (Only You Can See)',
                             value: 'here',
                         },
                     ]),
@@ -68,9 +68,11 @@ module.exports = {
                         var msg = `Password saved: ${passwordName}`;
                     }
 
+                    
+
                     if (messageDestination === 'dm') {
                         await interaction.user.send(msg);
-                        await interaction.editReply({ content: "Success!", components: [], ephemeral: true });
+                        await interaction.editReply({ content: "Success! Check your DM.", components: [], ephemeral: true });
                     } else {
                         await interaction.editReply({ content: msg, components: [], ephemeral: true });
                     }

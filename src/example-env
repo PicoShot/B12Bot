@@ -4,17 +4,17 @@
 TOKEN=Token here
 # Debug Mode
 Debug=false
-# Password Encrypt Key For Example (0xFF) hex value
-EncryptKey=0xFF
+# Password Encrypt Key For Example (0xFF) in string
+SECRET_KEY="0xFF"
 
 #             [SQL Connection Settings]
 
-# SQL Server Name Or IP Address (default: localhost)
+
 SQL_IP=localhost
-# SQL Server Username (default: root)
+
 SQL_USER=root
-# SQL Server Password
+
 SQL_PASS=
-# SQL Server DataBase Name
+
 SQL_DB=B12Bot
 
