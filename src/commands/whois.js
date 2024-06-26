@@ -11,3 +11,4 @@ module.exports = {
         await interaction.reply({ content: `You are (${userName}) and your discord id is: (${userId}) and your bot Token is: (${Token})`, ephemeral: true });
     },
 };
+ 

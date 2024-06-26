@@ -43,6 +43,8 @@ module.exports = {
                             { label: '1 Day', value: '1day' },
                             { label: '3 Days', value: '3day' },
                             { label: '1 Week', value: '1week' },
+                            { label: '1 Month', value: '1month' },
+                            { label: 'For Ever (Not Secure)', value: 'ever' },
                         ])
                 );
 
@@ -91,6 +93,12 @@ module.exports = {
                         break;
                     case '1week':
                         expiresAt = new Date(currentDate.getTime() + 7 * 24 * 3600000);
+                        break;
+                    case '1month':
+                        expiresAt = new Date(currentDate.getTime() + 30 * 24 * 3600000);
+                        break;
+                    case 'ever':
+                        expiresAt = new Date(currentDate.getTime() + 5 * 365 * 24 * 3600000);
                         break;
                     default:
                         await i.reply({ content: 'Invalid selection.', ephemeral: true });
