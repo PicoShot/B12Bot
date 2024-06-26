@@ -1,10 +1,3 @@
--- --------------------------------------------------------
--- Sunucu:                       127.0.0.1
--- Sunucu sürümü:                11.3.2-MariaDB - mariadb.org binary distribution
--- Sunucu İşletim Sistemi:       Win64
--- HeidiSQL Sürüm:               12.6.0.6765
--- --------------------------------------------------------
-
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET NAMES utf8 */;
 /*!50503 SET NAMES utf8mb4 */;
@@ -15,11 +8,9 @@
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 
--- b12bot için veritabanı yapısı dökülüyor
 CREATE DATABASE IF NOT EXISTS `b12bot` /*!40100 DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci */;
 USE `b12bot`;
 
--- tablo yapısı dökülüyor b12bot.auth_keys
 CREATE TABLE IF NOT EXISTS `auth_keys` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `user_id` varchar(255) NOT NULL,
@@ -28,9 +19,6 @@ CREATE TABLE IF NOT EXISTS `auth_keys` (
   UNIQUE KEY `user_id` (`user_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=19 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
--- Veri çıktısı seçilmemişti
-
--- tablo yapısı dökülüyor b12bot.passwords
 CREATE TABLE IF NOT EXISTS `passwords` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `user_id` varchar(255) NOT NULL,
@@ -41,9 +29,6 @@ CREATE TABLE IF NOT EXISTS `passwords` (
   KEY `all` (`user_id`,`password_name`,`password`)
 ) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
--- Veri çıktısı seçilmemişti
-
--- tablo yapısı dökülüyor b12bot.register
 CREATE TABLE IF NOT EXISTS `register` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `user_id` varchar(255) NOT NULL,
@@ -52,16 +37,11 @@ CREATE TABLE IF NOT EXISTS `register` (
   UNIQUE KEY `user_id` (`user_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
--- Veri çıktısı seçilmemişti
-
--- tablo yapısı dökülüyor b12bot.verify_times
 CREATE TABLE IF NOT EXISTS `verify_times` (
   `user_id` varchar(50) NOT NULL DEFAULT '',
   `expires_at` datetime NOT NULL,
   PRIMARY KEY (`user_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
--- Veri çıktısı seçilmemişti
 
 /*!40103 SET TIME_ZONE=IFNULL(@OLD_TIME_ZONE, 'system') */;
 /*!40101 SET SQL_MODE=IFNULL(@OLD_SQL_MODE, '') */;
