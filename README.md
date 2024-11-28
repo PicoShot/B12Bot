@@ -1,5 +1,5 @@
 # B12Bot
- B12Bot is Discord Bot That Store Password with uplevel encryption and Google Authenticator<br>
+ B12 Bot is Discord Bot That Store Password with uplevel encryption and Google Authenticator<br>
 <br>
 ## requirements
 Node.js v20.15.0<br>
